@@ -1527,7 +1527,9 @@ rZ4.setSelected(false);
         intRonda = intRonda + 1;
         jlRonda.setText(Integer.toString(intRonda));
         
-        repartir carta a la cpu donde vale cero
+        repartir carta a la cpu donde vale cero mgggggg
+                llllll
+                klllkk
     }
     private void rZ1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rZ1ActionPerformed
 //        selecciono z1
