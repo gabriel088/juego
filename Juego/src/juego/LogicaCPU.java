@@ -11,6 +11,13 @@ package juego;
  */
 public class LogicaCPU {
 
+//    /variables q tienen q ser reinicadas
+    int cartaElegida1 = 0;//lleva el control de q se juega la carta 1
+    int cartaElegida2 = 0;//lleva el control de q se juega la carta 2
+//    int cartaElegida3 = 0;
+    int cartaElegida4 = 0;
+    int comodin = 0;//sirve para diferenciar estados iguales pero de distintos ordenes
+//----------------------------------------------------------------------------------------------
     String CartaAtaque1 = "0";
     String CartaDefensa1 = "0";
     String CartaAtaque2 = "0";
@@ -98,10 +105,7 @@ public class LogicaCPU {
         System.out.println("reconociendo Carta 3");
         System.out.println("ataque3= " + getCartaAtaque3());
         System.out.println("defensa3= " + getCartaDefensa3());
-//ir al mazo de cartas y llevarme los id
-//        idCarta1="";
-//        idCarta1
-//        idCarta1
+
     }
 
     public void resultadoCartaParaJugarCPU(String carta1Ataque, String carta1Defensa, String carta2Ataque, String carta2Defensa, String carta3Ataque, String carta3Defensa) {
@@ -115,7 +119,7 @@ public class LogicaCPU {
         if (defensa1 > defensa2) {
 
             if (defensa2 > defensa3) {
-
+                setResultadoEleccion("3");
             } else {
                 setResultadoEleccion("1");//significa que la defensa1 es mayor q la dos entonces tengo q jugAR LAS cartas 1 y 3
 
@@ -123,7 +127,7 @@ public class LogicaCPU {
 
         } else {
             if (defensa2 > defensa3) {
-
+                setResultadoEleccion("4");//significa que la defensa1 es menor q la segunda entonces tengo q jugAR LAS cartas 2 y 3
             } else {
                 setResultadoEleccion("2");//significa que la defensa1 es menor y que la defensa2 es menor q la defensa3
             }
@@ -142,17 +146,15 @@ public class LogicaCPU {
         int intAtaqueCPU1 = Integer.parseInt(ataque1CPU);
         int intAtaqueCPU2 = Integer.parseInt(ataque2CPU);
         int intSalud = Integer.parseInt(saludJugador);
-        int cartaElegida1 = 0;
-        int cartaElegida2 = 0;
-        int cartaElegida3 = 0;
-        int cartaElegida4 = 0;
+
         System.out.println("CLASE LOGICA CPU ---->logicaFuncionAtaque---->" + intAtaqueCPU1 + " " + intAtaqueCPU2 + " " + intDefensaJugador1 + " " + intDefensaJugador2);
 
         if (intAtaqueCPU1 > intAtaqueCPU2) {
-// cartaElegida1=1;
+            cartaElegida1 = 1;
             if (intDefensaJugador1 > intDefensaJugador2) {
-
-//                resultadoParcial1 = intAtaqueCPU1 - intDefensaJugador2;
+                cartaElegida2 = 1;
+                comodin = 1;
+                resultadoParcial1 = intAtaqueCPU1 - intDefensaJugador2;
 //                resultadoParcial1 = intSalud - resultadoParcial1;
 //                setSaludJugadorActualizada(Integer.toString(resultadoParcial1));
             } else {
@@ -186,6 +188,7 @@ public class LogicaCPU {
                 }
             } else {
                 cartaElegida1 = 1;//sirve para q la maquina sepa q carta juego
+                comodin = 2;
                 resultadoParcial1 = intAtaqueCPU2 - intDefensaJugador1;
                 System.out.println("resultado parcaial 1= " + resultadoParcial1);
                 if (resultadoParcial1 <= -1) {//esta comparacion sirve para cuando las defensas del jugador sean mayor al atq del CPU enteonces deja ocmo esta la energia
@@ -199,8 +202,18 @@ public class LogicaCPU {
             }
         }
         //estos if son para comparar las dos primeras cartas elegidas por la CPU-- cuando elijo la primer carta y la segunda me dan como resultadosParcial1 
+//el comodin es para diferenciar las distintas posibilidades de combinaciones OJO hay q pasar por todas las posibilidades para ver q funcionen
 
-        if (cartaElegida2 == 1 && cartaElegida1 == 1) {
+        if (cartaElegida2 == 1 && cartaElegida1 == 1 && comodin == 1) {
+            // entonces selecciona los otras dos por defecto 
+            resultadoParcial2 = intAtaqueCPU2 - intDefensaJugador1;
+//            System.out.println("resultado parcaial 2= " + resultadoParcial2);
+//            if (resultadoParcial2 < -1) {//es para cuando me da negativo
+//                resultadoParcial2 = 0;
+//            }
+        }
+
+        if (cartaElegida2 == 1 && cartaElegida1 == 1 && comodin == 2) {
             // entonces selecciona los otras dos por defecto 
             resultadoParcial2 = intAtaqueCPU1 - intDefensaJugador2;
             System.out.println("resultado parcaial 2= " + resultadoParcial2);
@@ -237,5 +250,13 @@ public class LogicaCPU {
 
     public void LogicaFuncionDefensa() {//este metodo es en funcion de ver la defensa nada mas 
 
+    }
+
+    public void reinicio() {
+        int cartaElegida1 = 0;//lleva el control de q se juega la carta 1
+        int cartaElegida2 = 0;//lleva el control de q se juega la carta 2
+//    int cartaElegida3 = 0;
+        int cartaElegida4 = 0;
+        int comodin = 0;//sirve para diferenciar estados iguales pero de distintos ordenes
     }
 }

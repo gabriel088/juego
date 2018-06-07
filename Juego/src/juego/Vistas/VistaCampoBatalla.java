@@ -1532,8 +1532,8 @@ rZ4.setSelected(false);
 //                klllkkjjj
 //                        hfg
 //                        hh
-frjfjfgjgjgjj
-jjj
+//frjfjfgjgjgjj
+//jjj
     }
     private void rZ1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rZ1ActionPerformed
 //        selecciono z1
