@@ -165,7 +165,7 @@ public class LogicaCPU {
             }
 
         } else {
-            cartaElegida2 = 1;//sirve para q la maquina sepa q carta jugo
+            cartaElegida2 = 1;///sirve para q la maquina sepa q carta jugo
             System.out.println("cartaElegida2= " + cartaElegida2);
             if (intDefensaJugador1 > intDefensaJugador2) {
                 cartaElegida4 = 1;//sirve para q la maquina sepa q carta juego
