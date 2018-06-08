@@ -56,8 +56,8 @@ public class MazoCartas {
             ataque = "4";//
             defensa = "2";
 
-//            System.out.println("nombre " + ataque);
-//            System.out.println("salud " + defensa);
+///            System.out.println("nombre " + ataque);
+///            System.out.println("salud " + defensa);
             System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
         }
 
