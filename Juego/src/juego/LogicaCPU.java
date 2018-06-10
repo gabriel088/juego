@@ -11,7 +11,7 @@ package juego;
  */
 public class LogicaCPU {
 
-//    /variables q tienen q ser reinicadas
+//variables q tienen q ser reinicadas
     int cartaElegida1 = 0;//lleva el control de q se juega la carta 1
     int cartaElegida2 = 0;//lleva el control de q se juega la carta 2
 //    int cartaElegida3 = 0;
@@ -158,14 +158,15 @@ public class LogicaCPU {
 //                resultadoParcial1 = intSalud - resultadoParcial1;
 //                setSaludJugadorActualizada(Integer.toString(resultadoParcial1));
             } else {
-//                System.out.println("mmmm");
+                System.out.println("mmmm");
+                resultadoParcial1 = intAtaqueCPU1 - intDefensaJugador1;
 //                resultadoParcial1 = intAtaqueCPU1 - intDefensaJugador1;
 //                resultadoParcial1 = intSalud - resultadoParcial1;
 //                setSaludJugadorActualizada(Integer.toString(resultadoParcial1));
             }
 
         } else {
-            cartaElegida2 = 1;///sirve para q la maquina sepa q carta jugo
+            cartaElegida2 = 1;//sirve para q la maquina sepa q carta jugo
             System.out.println("cartaElegida2= " + cartaElegida2);
             if (intDefensaJugador1 > intDefensaJugador2) {
                 cartaElegida4 = 1;//sirve para q la maquina sepa q carta juego
@@ -180,11 +181,11 @@ public class LogicaCPU {
                 if (resultadoParcial1 <= -1) {//esta comparacion sirve para cuando las defensas del jugador sean mayor al atq del CPU enteonces deja ocmo esta la energia
 //                se trendria q actualizar el resultado en la defensa
                     System.out.println("el resultado se lo tengo q poner a la defensa del jugador");
-//                    setSaludJugadorActualizada(Integer.toString(intSalud));
+//                   //Evita que programa colapse en ssegunda eleccion cuando es negativo
+                    resultadoParcial1 = 0;
                 } else {
+                    resultadoParcial2 = 0;
 
-//                    resultadoParcial1 = intSalud - resultadoParcial1;
-//                    setSaludJugadorActualizada(Integer.toString(resultadoParcial1));
                 }
             } else {
                 cartaElegida1 = 1;//sirve para q la maquina sepa q carta juego

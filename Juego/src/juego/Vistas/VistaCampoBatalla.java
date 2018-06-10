@@ -5,6 +5,7 @@
  */
 package juego.Vistas;
 
+import javax.swing.JOptionPane;
 import juego.CampoBatalla;
 import juego.LogicaCPU;
 import juego.MazoCartas;
@@ -16,7 +17,7 @@ import juego.PersonajesCargados;
  * @author Gabriel
  */
 public class VistaCampoBatalla extends javax.swing.JFrame {
-
+    
     boolean borrarCarta1CPU = false;
     boolean borrarCarta2CPU = false;
     boolean borrarCarta3CPU = false;
@@ -25,8 +26,9 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
     boolean borrarCarta3Jugador = false;
     String controlCarta1Jugador = "0";//sirve para llevar el control si puedo poner la info en el campo de batalla es el caso en q los 2 esten desocupados
 //     esto va en la clase campoBatalla
-    String controlCarta2 = "0";
-    String controlCarta3 = "0";
+    String controlCarta2Jugador = "0";
+    String controlCarta3Jugador = "0";
+//    String controlCarta3 = "0";
     String z1;
     String z2;
     String z3;
@@ -35,35 +37,35 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
     String ordenBotonesEleccionZ2Z4 = "";
     String ordenBotonesEleccionZ1Z4 = "";
     String ordenBotonesEleccionZ2Z3 = "";
-
+    String IdPersonaje = "0";
     public String getZ2() {
         return z2;
     }
-
+    
     public void setZ2(String z2) {
         this.z2 = z2;
     }
-
+    
     public String getZ4() {
         return z4;
     }
-
+    
     public void setZ4(String z4) {
         this.z4 = z4;
     }
-
+    
     public String getZ1() {
         return z1;
     }
-
+    
     public void setZ1(String z1) {
         this.z1 = z1;
     }
-
+    
     public String getZ3() {
         return z3;
     }
-
+    
     public void setZ3(String z3) {
         this.z3 = z3;
     }
@@ -73,19 +75,23 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
      */
 //    referencia global
     LogicaCPU refLogicaCPU = new LogicaCPU();
-
+    MazoCartas refMazoCartas = new MazoCartas();
+PersonajesCargados refPersonajesCargados = new PersonajesCargados();
     public VistaCampoBatalla() {
         initComponents();
         setLocationRelativeTo(null);
         //referencias
-        PersonajesCargados refPersonajesCargados = new PersonajesCargados();
-        MazoCartas refMazoCartas = new MazoCartas();
+        
+        
         CampoBatalla refCampoBatalla = new CampoBatalla();
         LogicaCPU refLogicaCPU = new LogicaCPU();
         //seteo de referencias
         refPersonajesCargados.setRefPersonajesCargados(refPersonajesCargados);
         refMazoCartas.setRefCartas(refMazoCartas);
-
+        //Seleccion de confirmar ataque se hace invisible hasta seleccionar carta
+        rbConfirmaAtaque.setVisible(false);
+        //Boton enter aparece cuando se seleccione Confirmar Ataque
+        btEnter.setVisible(false);
 //        inicializo la ronda en 1 primer vuelta
         jlRonda.setText("1");
 
@@ -96,45 +102,44 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         jlCartasBatallaDefensa2Z2Jugador.setText("0");
         //el id se obtiene de la eleccion del personaje en la vista anterior 
         //a modo de ejemplo ahora hago de cuenta q seleccione el perosnaje id=1
-        refPersonajesCargados.presentar("1");//le meto el id 1
-        tfNombre.setText(refPersonajesCargados.getNombre());
-        tfAtaque.setText(refPersonajesCargados.getAtaque());
-        tfSaludJugador.setText(refPersonajesCargados.getSalud());
-        refPersonajesCargados.presentar("2");//le meto el id 1
-        tfNombreJ.setText(refPersonajesCargados.getNombre());
-        tfAtaqueJ.setText(refPersonajesCargados.getAtaque());
-        jlSaludCPU.setText(refPersonajesCargados.getSalud());
+        
+        
+        
+//        
+//     
         //-----------------------------------------------------------------
+//       btPresionado();
+        refMazoCartas.mesclar();
 
         //cartas repartidas al  humano
-        refMazoCartas.declararCartas("2");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        refMazoCartas.declararCartas("5");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
         jlCartaAtaque1.setText(refMazoCartas.getAtaque());
         jlCartaDefensa1.setText(refMazoCartas.getDefensas());
 //        refLogicaCPU.setAtaque1(jlCartaAtaque1.getText());
 //        refLogicaCPU.setDefensa1(jlCartaDefensa1.getText());
 
-        refMazoCartas.declararCartas("1");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        refMazoCartas.declararCartas(refMazoCartas.getCartaRepartida2Humano());//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
         jlCartaAtaque2.setText(refMazoCartas.getAtaque());
         jlCartaDefensa2.setText(refMazoCartas.getDefensas());
 //        refLogicaCPU.setAtaque2(jlCartaAtaque2.getText());
 //        refLogicaCPU.setDefensa2(jlCartaDefensa2.getText());
 
-        refMazoCartas.declararCartas("9");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        refMazoCartas.declararCartas(refMazoCartas.getCartaRepartida3Humano());//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
         jlCartaAtaque3.setText(refMazoCartas.getAtaque());
         jlCartaDefensa3.setText(refMazoCartas.getDefensas());
 //        refLogicaCPU.setAtaque3(jlCartaAtaque3.getText());
 //        refLogicaCPU.setDefensa3(jlCartaDefensa3.getText());
         //------------------------------------------------------------------------------------------
 //cartas entrgadas al CPU
-        refMazoCartas.declararCartas("3");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        refMazoCartas.declararCartas("6");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
         jlCartaAtaque1CPU.setText(refMazoCartas.getAtaque());
         jlCartaDefensa1CPU.setText(refMazoCartas.getDefensas());
-
-        refMazoCartas.declararCartas("7");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        
+        refMazoCartas.declararCartas("1");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
         jlCartaAtaque2CPU.setText(refMazoCartas.getAtaque());
         jlCartaDefensa2CPU.setText(refMazoCartas.getDefensas());
-
-        refMazoCartas.declararCartas("10");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        
+        refMazoCartas.declararCartas("7");//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
         jlCartaAtaque3CPU.setText(refMazoCartas.getAtaque());
         jlCartaDefensa3CPU.setText(refMazoCartas.getDefensas());
         //seteo para la clase logica CPU
@@ -150,7 +155,8 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         setZ2("0");
         setZ3("0");
         setZ4("0");
-
+     panelCartaHumano.setVisible(false);
+     panelCartaMaquina.setVisible(false);
     }
 
     /**
@@ -158,12 +164,12 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         tfNombreJ = new javax.swing.JLabel();
@@ -178,7 +184,6 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        jRadioButton2 = new javax.swing.JRadioButton();
         rbConfirmaAtaque = new javax.swing.JRadioButton();
         btEnter = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -200,10 +205,10 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         tfCartaPropiedades6 = new javax.swing.JLabel();
-        jlCartasBatallaAtaque2CPUZ4 = new javax.swing.JTextField();
-        jlCartasBatallaDefensa2CPUZ4 = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         rZ4 = new javax.swing.JRadioButton();
+        jlCartasBatallaAtaque2CPUZ4 = new javax.swing.JLabel();
+        jlCartasBatallaDefensa2CPUZ4 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jlCartasBatallaAtaque1Z1Jugador = new javax.swing.JTextField();
         tfCartaPropiedades3 = new javax.swing.JLabel();
@@ -214,7 +219,7 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
+        panelCartaHumano = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btCarta1 = new javax.swing.JButton();
@@ -234,7 +239,7 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         jlCartaAtaque2 = new javax.swing.JLabel();
         jlCartaDefensa2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
+        panelCartaMaquina = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         tfCartaPropiedades7 = new javax.swing.JLabel();
@@ -256,8 +261,13 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         btCarta2CPU = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jlRonda = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
+        panelPersonajes = new javax.swing.JPanel();
+        btEleccionPersonaje1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -271,8 +281,6 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jButton4.setText("baraja");
 
         jLabel17.setText("JUGADOR");
 
@@ -376,8 +384,6 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
                     .addContainerGap(22, Short.MAX_VALUE)))
         );
 
-        jRadioButton2.setText("pasar no hacer nada");
-
         rbConfirmaAtaque.setText("confirmar el ataque");
         rbConfirmaAtaque.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,11 +407,9 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(rbConfirmaAtaque)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 72, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(0, 1, Short.MAX_VALUE)
-                        .addComponent(jRadioButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btEnter)))
                 .addContainerGap())
         );
@@ -415,9 +419,7 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(rbConfirmaAtaque)
                 .addGap(3, 3, 3)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btEnter)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btEnter)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -553,20 +555,6 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
 
         tfCartaPropiedades6.setText("ataque");
 
-        jlCartasBatallaAtaque2CPUZ4.setText("0");
-        jlCartasBatallaAtaque2CPUZ4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jlCartasBatallaAtaque2CPUZ4ActionPerformed(evt);
-            }
-        });
-
-        jlCartasBatallaDefensa2CPUZ4.setText("0");
-        jlCartasBatallaDefensa2CPUZ4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jlCartasBatallaDefensa2CPUZ4ActionPerformed(evt);
-            }
-        });
-
         jLabel19.setText("defensa");
 
         rZ4.setText("z4");
@@ -575,6 +563,10 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
                 rZ4ActionPerformed(evt);
             }
         });
+
+        jlCartasBatallaAtaque2CPUZ4.setText("0");
+
+        jlCartasBatallaDefensa2CPUZ4.setText("0");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -585,13 +577,13 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlCartasBatallaDefensa2CPUZ4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jlCartasBatallaDefensa2CPUZ4)
+                        .addContainerGap())
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(tfCartaPropiedades6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlCartasBatallaAtaque2CPUZ4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jlCartasBatallaAtaque2CPUZ4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(rZ4)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -600,14 +592,15 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(rZ4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfCartaPropiedades6)
-                    .addComponent(jlCartasBatallaAtaque2CPUZ4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(jlCartasBatallaDefensa2CPUZ4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(tfCartaPropiedades6)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(jlCartasBatallaDefensa2CPUZ4)))
+                    .addComponent(jlCartasBatallaAtaque2CPUZ4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel15.setBackground(new java.awt.Color(0, 153, 51));
@@ -766,7 +759,7 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
         );
 
-        jPanel11.setBackground(new java.awt.Color(0, 204, 102));
+        panelCartaHumano.setBackground(new java.awt.Color(0, 204, 102));
 
         jLabel2.setText("mis cartas entregadas");
 
@@ -946,40 +939,40 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelCartaHumanoLayout = new javax.swing.GroupLayout(panelCartaHumano);
+        panelCartaHumano.setLayout(panelCartaHumanoLayout);
+        panelCartaHumanoLayout.setHorizontalGroup(
+            panelCartaHumanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCartaHumanoLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGroup(panelCartaHumanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCartaHumanoLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCartaHumanoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
+        panelCartaHumanoLayout.setVerticalGroup(
+            panelCartaHumanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCartaHumanoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelCartaHumanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(panelCartaHumanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(253, 253, 253))
         );
 
-        jPanel14.setBackground(new java.awt.Color(0, 153, 153));
+        panelCartaMaquina.setBackground(new java.awt.Color(0, 153, 153));
 
         jLabel13.setText("cpu cartas entregadas");
 
@@ -1149,37 +1142,37 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelCartaMaquinaLayout = new javax.swing.GroupLayout(panelCartaMaquina);
+        panelCartaMaquina.setLayout(panelCartaMaquinaLayout);
+        panelCartaMaquinaLayout.setHorizontalGroup(
+            panelCartaMaquinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCartaMaquinaLayout.createSequentialGroup()
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
-            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel14Layout.createSequentialGroup()
+            .addGroup(panelCartaMaquinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelCartaMaquinaLayout.createSequentialGroup()
                     .addGap(95, 95, 95)
                     .addComponent(jLabel13)
                     .addContainerGap(106, Short.MAX_VALUE)))
         );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        panelCartaMaquinaLayout.setVerticalGroup(
+            panelCartaMaquinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCartaMaquinaLayout.createSequentialGroup()
                 .addContainerGap(43, Short.MAX_VALUE)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelCartaMaquinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCartaMaquinaLayout.createSequentialGroup()
+                        .addGroup(panelCartaMaquinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel14Layout.createSequentialGroup()
+            .addGroup(panelCartaMaquinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelCartaMaquinaLayout.createSequentialGroup()
                     .addGap(21, 21, 21)
                     .addComponent(jLabel13)
                     .addContainerGap(65, Short.MAX_VALUE)))
@@ -1187,91 +1180,139 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
 
         jLabel1.setText("RONDA");
 
-        jLabel27.setText("la cartaElegida es una variabe q usa la CPU  para saber a q carta atacar");
+        btEleccionPersonaje1.setText("sjaywoker");
+        btEleccionPersonaje1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEleccionPersonaje1ActionPerformed(evt);
+            }
+        });
 
-        jLabel28.setText("arregla lo del jugador cuando elegi las 4 opciones");
+        jButton1.setText("jButton1");
+
+        jButton2.setText("jButton2");
+
+        jButton3.setText("jButton3");
+
+        jButton5.setText("jButton5");
+
+        jButton6.setText("jButton6");
+
+        javax.swing.GroupLayout panelPersonajesLayout = new javax.swing.GroupLayout(panelPersonajes);
+        panelPersonajes.setLayout(panelPersonajesLayout);
+        panelPersonajesLayout.setHorizontalGroup(
+            panelPersonajesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPersonajesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelPersonajesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPersonajesLayout.createSequentialGroup()
+                        .addComponent(btEleccionPersonaje1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(jButton3))
+                    .addGroup(panelPersonajesLayout.createSequentialGroup()
+                        .addGroup(panelPersonajesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelPersonajesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap())
+        );
+        panelPersonajesLayout.setVerticalGroup(
+            panelPersonajesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPersonajesLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(panelPersonajesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btEleccionPersonaje1)
+                    .addComponent(jButton3))
+                .addGroup(panelPersonajesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPersonajesLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2))
+                    .addGroup(panelPersonajesLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(187, 187, 187)
-                                        .addComponent(jLabel17))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(40, 40, 40)
-                                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(155, 155, 155)
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jlRonda, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(217, 217, 217)
+                                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(11, 11, 11)
-                                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(panelCartaMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(33, 33, 33)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(56, 56, 56)
-                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel28))))))
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(300, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(227, 227, 227)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(61, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel27)
-                .addGap(280, 280, 280))
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(panelCartaHumano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(187, 187, 187)
+                                .addComponent(jLabel17)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(113, 113, 113)
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jlRonda, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(panelPersonajes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(119, 119, 119))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
+                        .addGap(97, 97, 97)
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1)
-                                .addComponent(jlRonda, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(panelCartaHumano, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(panelPersonajes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jlRonda, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(24, 24, 24)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(jLabel28)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
-                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(panelCartaMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(181, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
@@ -1282,10 +1323,12 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
     }//GEN-LAST:event_jlCartasBatallaAtaque1Z1JugadorActionPerformed
 
     private void btCarta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCarta1ActionPerformed
+        rbConfirmaAtaque.setVisible(true);
 //    al presionar el bt1 verifico q todo los datos del campo batalla y el control de carta esten en cero
         borrarCarta1Jugador = true;
+        System.out.println(z1);
         if (jlCartasBatallaAtaque1Z1Jugador.getText().equals("0") && jlCartasBatallaDefensa1Z1Jugador.getText().equals("0") && controlCarta1Jugador.equals("0")) {
-
+            
             jlCartasBatallaAtaque1Z1Jugador.setText(jlCartaAtaque1.getText());
             jlCartasBatallaDefensa1Z1Jugador.setText(jlCartaDefensa1.getText());
             controlCarta1Jugador = "1";
@@ -1298,14 +1341,15 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
     }//GEN-LAST:event_btCarta1ActionPerformed
 
     private void btCarta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCarta2ActionPerformed
+        rbConfirmaAtaque.setVisible(true);
         borrarCarta2Jugador = true;
-        System.out.println("control carta 2 " + controlCarta2);
-        if (jlCartasBatallaAtaque1Z1Jugador.getText().equals("0") && jlCartasBatallaDefensa1Z1Jugador.getText().equals("0") && controlCarta2.equals("0")) {
+        System.out.println("control carta 2 " + controlCarta2Jugador);
+        if (jlCartasBatallaAtaque1Z1Jugador.getText().equals("0") && jlCartasBatallaDefensa1Z1Jugador.getText().equals("0") && controlCarta2Jugador.equals("0")) {
             jlCartasBatallaAtaque1Z1Jugador.setText(jlCartaAtaque2.getText());
             jlCartasBatallaDefensa1Z1Jugador.setText(jlCartaDefensa2.getText());
-            controlCarta2 = "1";
+            controlCarta2Jugador = "1";
         }
-        if (jlCartasBatallaAtaque2Z2Jugador.getText().equals("0") && jlCartasBatallaDefensa2Z2Jugador.getText().equals("0") && controlCarta2.equals("0")) {
+        if (jlCartasBatallaAtaque2Z2Jugador.getText().equals("0") && jlCartasBatallaDefensa2Z2Jugador.getText().equals("0") && controlCarta2Jugador.equals("0")) {
             jlCartasBatallaAtaque2Z2Jugador.setText(jlCartaAtaque2.getText());
             jlCartasBatallaDefensa2Z2Jugador.setText(jlCartaDefensa2.getText());
         }
@@ -1313,16 +1357,18 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
     }//GEN-LAST:event_btCarta2ActionPerformed
 
     private void btCarta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCarta3ActionPerformed
-        borrarCarta3Jugador = true;
-        if (jlCartasBatallaAtaque1Z1Jugador.getText().equals("0") && jlCartasBatallaDefensa1Z1Jugador.getText().equals("0") && controlCarta3.equals("0")) {
+        rbConfirmaAtaque.setVisible(true);
+//        borrarCarta3Jugador = true;
+        System.out.println("control carta3 " + controlCarta3Jugador);
+        if (jlCartasBatallaAtaque1Z1Jugador.getText().equals("0") && jlCartasBatallaDefensa1Z1Jugador.getText().equals("0") && controlCarta3Jugador.equals("0")) {
             jlCartasBatallaAtaque1Z1Jugador.setText(jlCartaAtaque3.getText());
             jlCartasBatallaDefensa1Z1Jugador.setText(jlCartaDefensa3.getText());
-            controlCarta3 = "1";
+            controlCarta3Jugador = "1";
         }
-        if (jlCartasBatallaAtaque2Z2Jugador.getText().equals("0") && jlCartasBatallaDefensa2Z2Jugador.getText().equals("0") && controlCarta3.equals("0")) {
+        if (jlCartasBatallaAtaque2Z2Jugador.getText().equals("0") && jlCartasBatallaDefensa2Z2Jugador.getText().equals("0") && controlCarta3Jugador.equals("0")) {
             jlCartasBatallaAtaque2Z2Jugador.setText(jlCartaAtaque3.getText());
             jlCartasBatallaDefensa2Z2Jugador.setText(jlCartaDefensa3.getText());
-
+            
         }
     }//GEN-LAST:event_btCarta3ActionPerformed
 
@@ -1346,16 +1392,8 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jlCartasBatallaDefensa1CPUZ3ActionPerformed
 
-    private void jlCartasBatallaAtaque2CPUZ4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jlCartasBatallaAtaque2CPUZ4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jlCartasBatallaAtaque2CPUZ4ActionPerformed
-
-    private void jlCartasBatallaDefensa2CPUZ4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jlCartasBatallaDefensa2CPUZ4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jlCartasBatallaDefensa2CPUZ4ActionPerformed
-
     private void btEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnterActionPerformed
-
+       
         System.out.println("z1= " + getZ1() + " z2= " + getZ2() + " z3= " + getZ3() + " z4= " + getZ4());
         System.out.println("vida original " + jlSaludCPU.getText());
         CampoBatalla refCampoBatalla = new CampoBatalla();
@@ -1372,7 +1410,7 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
 //refLogicaCPU.setDefensa1(TomoDefensaJugadoPorJugador);
 //refLogicaCPU.reconocerCartas();
         }
-
+        
         if (ordenBotonesEleccionZ1Z4.equals("1")) {
 //            if (getZ1().equals("1") && getZ4().equals("1")) {
             System.out.println("entro z1 z4");
@@ -1382,14 +1420,14 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
 //                reinicio();
 //            }
         }
-
+        
         if (ordenBotonesEleccionZ2Z3.equals("2")) {
 //            if (getZ2().equals("1") && getZ3().equals("1")) {
             System.out.println("entro z2 z3");
             refCampoBatalla.ataqueZ2yZ3(jlCartasBatallaAtaque2Z2Jugador.getText(), jlCartasBatallaDefensa1CPUZ3.getText(), jlSaludCPU.getText());
             jlSaludCPU.setText(refCampoBatalla.getSaludCpu());
             jlCartasBatallaDefensa1CPUZ3.setText(refCampoBatalla.getStringDefensaCpuZ3());
-
+            
         }
         if (ordenBotonesEleccionZ2Z4.equals("4")) {
 //            if (getZ2().equals("1") && getZ4().equals("1")) {
@@ -1407,17 +1445,17 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
 //produscoAtaqueCPU();
         seteoCartasCPU();
         reinicioDatos();
-
+        System.out.println("enter " + "control carta3 " + controlCarta3Jugador);
 
     }//GEN-LAST:event_btEnterActionPerformed
     public void seteoCartasCPU() {
         //necesito llevarme las tres cartas a la clase logica de CPU
         refLogicaCPU.setCartaAtaque1(jlCartaAtaque1CPU.getText());
         refLogicaCPU.setCartaDefensa1(jlCartaDefensa1CPU.getText());
-
+        
         refLogicaCPU.setCartaAtaque2(jlCartaAtaque2CPU.getText());
         refLogicaCPU.setCartaDefensa2(jlCartaDefensa2CPU.getText());
-
+        
         refLogicaCPU.setCartaAtaque3(jlCartaAtaque3CPU.getText());
         refLogicaCPU.setCartaDefensa3(jlCartaDefensa3CPU.getText());
 
@@ -1425,7 +1463,7 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
 //        String TomoDefensaJugadoPorJugador = jlCartasBatallaDefensa1Z1.getText();
 //        refLogicaCPU.elegirCartaParaJugarCPU(TomoDefensaJugadoPorJugador);
     }
-
+    
     public void resultadoLogicaCPU(String resultadoEleccion) {
         System.out.println("valor del resultado de eleccion= " + resultadoEleccion);
         //el resultado de la eleccion es un numero que  esta asociado a una accion especifica
@@ -1440,7 +1478,7 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
             jlCartasBatallaDefensa2CPUZ4.setText(jlCartaDefensa3CPU.getText());
             borrarCarta1CPU = true;
             borrarCarta3CPU = true;
-
+            
         }
         if (resultadoEleccion.equals("2")) {//significa que la defensa1 es menor y que la defensa2 es menor q la defensa3, entonces juego carta2  carta3
             //carta 1
@@ -1450,13 +1488,52 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
             //carta 2
             jlCartasBatallaAtaque2CPUZ4.setText(jlCartaAtaque3CPU.getText());
             jlCartasBatallaDefensa2CPUZ4.setText(jlCartaDefensa3CPU.getText());
-      borrarCarta2CPU = true;
-  borrarCarta3CPU = true;
+            borrarCarta2CPU = true;
+            borrarCarta3CPU = true;
         }
+        if (resultadoEleccion.equals("3")) {
+            //carta 1
+
+            jlCartasBatallaAtaque1CPUZ3.setText(jlCartaAtaque1CPU.getText());
+            jlCartasBatallaDefensa1CPUZ3.setText(jlCartaDefensa1CPU.getText());
+
+            //carta 2
+            jlCartasBatallaAtaque2CPUZ4.setText(jlCartaAtaque2CPU.getText());
+            jlCartasBatallaDefensa2CPUZ4.setText(jlCartaDefensa2CPU.getText());
+            
+            borrarCarta1CPU = true;
+            borrarCarta2CPU = true;
+        }
+        
+        if (resultadoEleccion.equals("4")) {//significa que la defensa1 es menor q la segunda entonces tengo q jugAR LAS cartas 2 y 3
+            //carta 1
+
+            jlCartasBatallaAtaque1CPUZ3.setText(jlCartaAtaque2CPU.getText());
+            jlCartasBatallaDefensa1CPUZ3.setText(jlCartaDefensa2CPU.getText());
+
+            //carta 2
+            jlCartasBatallaAtaque2CPUZ4.setText(jlCartaAtaque3CPU.getText());
+            jlCartasBatallaDefensa2CPUZ4.setText(jlCartaDefensa3CPU.getText());
+            
+            borrarCarta2CPU = true;
+            borrarCarta3CPU = true;
+        }
+        
         refLogicaCPU.LogicaFuncionAtaque(jlCartasBatallaAtaque1CPUZ3.getText(), jlCartasBatallaAtaque2CPUZ4.getText(), jlCartasBatallaDefensa1Z1Jugador.getText(), jlCartasBatallaDefensa2Z2Jugador.getText(), tfSaludJugador.getText());
         tfSaludJugador.setText(refLogicaCPU.getSaludJugadorActualizada());   //actualizo la energia de la maquina ver si cinviene hacer un metodo para esta accion
+     int saludHumana = Integer.parseInt(tfSaludJugador.getText());
+        int saludCPU = Integer.parseInt(jlSaludCPU.getText());
+        System.out.println("salud humana " + saludHumana + "salud cpu " + saludCPU);
+        if (saludHumana == 0 || saludHumana < 0) {
+            System.out.println("El ganador es CPU ");   //Panel de opciones
+            gameOver();
+        }
+        if (saludCPU == 0 || saludCPU < 0) {
+            System.out.println("El ganador es humano ");   //Panel de opciones
+            gameOver();
+        }
     }
-
+    
     public void produscoAtaqueCPU() {
 //
 //        String stringResultado = Integer.toString(refLogicaCPU.getResultado());
@@ -1469,32 +1546,46 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
 //        }
     }
 
-    public void reinicioDatos() {
+    public void gameOver() {
+        int i = 0;
+        while (i == 0) {
+            System.out.println("Fin del juego");
+            
+        }
+    }
 
+    public void reinicioDatos() {
+        
+       
+        
         if (borrarCarta1Jugador == true) {
             jlCartaAtaque1.setText("0");
             jlCartaDefensa1.setText("0");
-
+            
         }
         if (borrarCarta2Jugador == true) {
             jlCartaAtaque2.setText("0");
             jlCartaDefensa2.setText("0");
-
+            
         }
         if (borrarCarta3Jugador == true) {
             jlCartaAtaque3.setText("0");
             jlCartaDefensa3.setText("0");
-
+            
         }
         if (borrarCarta1CPU == true) {
             jlCartaAtaque1CPU.setText("0");
             jlCartaDefensa1CPU.setText("0");
-
+            
+        }
+        if (borrarCarta2CPU == true) {
+            jlCartaAtaque2CPU.setText("0");
+            jlCartaDefensa2CPU.setText("0");
         }
         if (borrarCarta3CPU == true) {
             jlCartaAtaque3CPU.setText("0");
             jlCartaDefensa3CPU.setText("0");
-
+            
         }
 //         volver a cero los Z  y q vuelva a deseleccionarse el radio
 //       true;
@@ -1502,75 +1593,147 @@ public class VistaCampoBatalla extends javax.swing.JFrame {
 
         jlCartasBatallaAtaque1Z1Jugador.setText("0");
         jlCartasBatallaDefensa1Z1Jugador.setText("0");
-
+        
         jlCartasBatallaAtaque2Z2Jugador.setText("0");
         jlCartasBatallaDefensa2Z2Jugador.setText("0");
-
+        
         jlCartasBatallaAtaque1CPUZ3.setText("0");
         jlCartasBatallaDefensa1CPUZ3.setText("0");
-
+        
         jlCartasBatallaAtaque2CPUZ4.setText("0");
         jlCartasBatallaDefensa2CPUZ4.setText("0");
-
+        
         setZ1("0");
         setZ2("0");
         setZ3("0");
         setZ4("0");
-rbConfirmaAtaque.setSelected(false);
-rZ1.setSelected(false);
-rZ2.setSelected(false);
-rZ3.setSelected(false);
-rZ4.setSelected(false);
+        controlCarta1Jugador = "0";
+        controlCarta2Jugador = "0";
+        controlCarta3Jugador = "0";
+        
+        rbConfirmaAtaque.setVisible(false);
+        btEnter.setVisible(false);
+        rbConfirmaAtaque.setSelected(false);
+        rZ1.setSelected(false);
+        rZ2.setSelected(false);
+        rZ3.setSelected(false);
+        rZ4.setSelected(false);
+        refLogicaCPU.reinicio();
 //        llevando la cuenta de las rondas
         int intRonda = Integer.parseInt(jlRonda.getText());
-
+        
         intRonda = intRonda + 1;
         jlRonda.setText(Integer.toString(intRonda));
-        // algo
-//        repartir carta a la cpu donde vale cero mgggggg
-//                llllll
-//                klllkkjjj
-//                        hfg
-//                        hh
-//frjfjfgjgjgjj
-//jjj
+         int saludHumana = Integer.parseInt(tfSaludJugador.getText());
+        int saludCPU = Integer.parseInt(jlSaludCPU.getText());
+        System.out.println("salud humana " + saludHumana + "salud cpu " + saludCPU);
+        if (saludHumana == 0 || saludHumana < 0) {
+            System.out.println("El ganador es CPU ");   //Panel de opciones
+            gameOver();
+        }
+        if (saludCPU == 0 || saludCPU < 0) {
+            System.out.println("El ganador es humano ");   //Panel de opciones
+            gameOver();
+        }
+        refMazoCartas.mesclar();
+        cartaRepartir();
+    }
+
+    public void cartaRepartir() {
+        //cartas repartidas al  humano
+        refMazoCartas.declararCartas(refMazoCartas.getCartaRepartida1Humano());//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        jlCartaAtaque1.setText(refMazoCartas.getAtaque());
+        jlCartaDefensa1.setText(refMazoCartas.getDefensas());
+//        refLogicaCPU.setAtaque1(jlCartaAtaque1.getText());
+//        refLogicaCPU.setDefensa1(jlCartaDefensa1.getText());
+
+        refMazoCartas.declararCartas(refMazoCartas.getCartaRepartida2Humano());//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        jlCartaAtaque2.setText(refMazoCartas.getAtaque());
+        jlCartaDefensa2.setText(refMazoCartas.getDefensas());
+//        refLogicaCPU.setAtaque2(jlCartaAtaque2.getText());
+//        refLogicaCPU.setDefensa2(jlCartaDefensa2.getText());
+
+        refMazoCartas.declararCartas(refMazoCartas.getCartaRepartida3Humano());//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        jlCartaAtaque3.setText(refMazoCartas.getAtaque());
+        jlCartaDefensa3.setText(refMazoCartas.getDefensas());
+//        refLogicaCPU.setAtaque3(jlCartaAtaque3.getText());
+//        refLogicaCPU.setDefensa3(jlCartaDefensa3.getText());
+        //------------------------------------------------------------------------------------------
+//cartas entrgadas al CPU
+        refMazoCartas.declararCartas(refMazoCartas.getCartaRepartida1CPU());//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        jlCartaAtaque1CPU.setText(refMazoCartas.getAtaque());
+        jlCartaDefensa1CPU.setText(refMazoCartas.getDefensas());
+        
+        refMazoCartas.declararCartas(refMazoCartas.getCartaRepartida2CPU());//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        jlCartaAtaque2CPU.setText(refMazoCartas.getAtaque());
+        jlCartaDefensa2CPU.setText(refMazoCartas.getDefensas());
+        
+        refMazoCartas.declararCartas(refMazoCartas.getCartaRepartida3CPU());//estre id seria dado por la clase cartar q viene de la eleccion aleatorio
+        jlCartaAtaque3CPU.setText(refMazoCartas.getAtaque());
+        jlCartaDefensa3CPU.setText(refMazoCartas.getDefensas());
+        
+        jlCartasBatallaAtaque1Z1Jugador.setText("0");
+        jlCartasBatallaDefensa1Z1Jugador.setText("0");
+        
+        jlCartasBatallaAtaque2Z2Jugador.setText("0");
+        jlCartasBatallaDefensa2Z2Jugador.setText("0");
+        
+        jlCartasBatallaAtaque1CPUZ3.setText("0");
+        jlCartasBatallaDefensa1CPUZ3.setText("0");
+        
+        jlCartasBatallaAtaque2CPUZ4.setText("0");
+        jlCartasBatallaDefensa2CPUZ4.setText("0");
+
+//        repartir carta a la cpu donde vale cero
     }
     private void rZ1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rZ1ActionPerformed
+        rZ1.setVisible(false);
+        btEnter.setVisible(true);
 //        selecciono z1
 //        CampoBatalla refCampoBatalla;
         setZ1("1");
 //        ordenBotonesEleccionZ1Z4 = "0";
+        if (z1.isEmpty()) {         //Metodo que cumple funcion sobre el caso no seleccionado
+            setZ1("0");            
+        }
     }//GEN-LAST:event_rZ1ActionPerformed
+    
 
     private void rZ3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rZ3ActionPerformed
 //        selecciono z3
 //        CampoBatalla refCampoBatalla = new CampoBatalla();
         if (getZ2().equals("1")) {
             setZ3("1");
-
+            
             ordenBotonesEleccionZ2Z3 = "2";
-        }
-
-        if (getZ1().equals("1")) {
-//            if (ordenBotonesEleccionZ2Z3.equals("0")) {
+        } else {
             setZ3("1");
-//            setZ1("0");
             ordenBotonesEleccionZ1Z3 = "3";
-
         }
+
+//        if (getZ1().equals("1")) {
+////            if (ordenBotonesEleccionZ2Z3.equals("0")) {
+//            setZ3("1");
+////            setZ1("0");
+//            ordenBotonesEleccionZ1Z3 = "3";
+//
+//        }
 
     }//GEN-LAST:event_rZ3ActionPerformed
 
     private void rZ4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rZ4ActionPerformed
-
+        
         if (getZ2().equals("1")) {
             setZ4("1");
             ordenBotonesEleccionZ2Z4 = "4";
-        }
-        if (getZ1().equals("1")) {
+        } else {
             setZ4("1");
             ordenBotonesEleccionZ1Z4 = "1";
         }
+//        if (getZ1().equals("1")) {
+//            setZ4("1");
+//            ordenBotonesEleccionZ1Z4 = "1";
+//        }
     }//GEN-LAST:event_rZ4ActionPerformed
 
     private void rZ2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rZ2ActionPerformed
@@ -1591,11 +1754,29 @@ rZ4.setSelected(false);
     }//GEN-LAST:event_jlCartaAtaque2CPUAncestorAdded
 
     private void rbConfirmaAtaqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbConfirmaAtaqueActionPerformed
-//       refLogicaCPU.elegirCartaParaJugarCPU(jlCartasBatallaAtaque1Z1Jugador.getText(), jlCartasBatallaDefensa1Z1Jugador.getText(), jlCartasBatallaAtaque2Z2Jugador.getText(), jlCartasBatallaDefensa2Z2Jugador.getText());
+        
 //evio las cartas q tiene la cpu para poder dar un resultado de eleccion
         refLogicaCPU.resultadoCartaParaJugarCPU(jlCartaAtaque1CPU.getText(), jlCartaDefensa1CPU.getText(), jlCartaAtaque2CPU.getText(), jlCartaDefensa2CPU.getText(), jlCartaAtaque3CPU.getText(), jlCartaDefensa3CPU.getText());
         resultadoLogicaCPU(refLogicaCPU.getResultadoEleccion());
     }//GEN-LAST:event_rbConfirmaAtaqueActionPerformed
+
+    private void btEleccionPersonaje1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEleccionPersonaje1ActionPerformed
+        IdPersonaje="1";
+       
+                refPersonajesCargados.presentar(IdPersonaje);//le meto el id 1
+        tfNombre.setText(refPersonajesCargados.getNombre());
+        tfAtaque.setText(refPersonajesCargados.getAtaque());
+        tfSaludJugador.setText(refPersonajesCargados.getSalud());
+        
+           refPersonajesCargados.presentar("2");//le meto el id 1
+        tfNombreJ.setText(refPersonajesCargados.getNombre());
+        tfAtaqueJ.setText(refPersonajesCargados.getAtaque());
+        jlSaludCPU.setText(refPersonajesCargados.getSalud());
+          
+             panelCartaHumano.setVisible(true);
+     panelCartaMaquina.setVisible(true);
+     panelPersonajes.setVisible(false);
+    }//GEN-LAST:event_btEleccionPersonaje1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1639,8 +1820,13 @@ rZ4.setSelected(false);
     private javax.swing.JLabel btCarta2CPU;
     private javax.swing.JButton btCarta3;
     private javax.swing.JLabel btCarta3CPU;
+    private javax.swing.JButton btEleccionPersonaje1;
     private javax.swing.JButton btEnter;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1659,8 +1845,6 @@ rZ4.setSelected(false);
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1670,10 +1854,8 @@ rZ4.setSelected(false);
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
@@ -1686,7 +1868,6 @@ rZ4.setSelected(false);
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JLabel jlCartaAtaque1;
     private javax.swing.JLabel jlCartaAtaque1CPU;
     private javax.swing.JLabel jlCartaAtaque2;
@@ -1701,14 +1882,17 @@ rZ4.setSelected(false);
     private javax.swing.JLabel jlCartaDefensa3CPU;
     private javax.swing.JTextField jlCartasBatallaAtaque1CPUZ3;
     private javax.swing.JTextField jlCartasBatallaAtaque1Z1Jugador;
-    private javax.swing.JTextField jlCartasBatallaAtaque2CPUZ4;
+    private javax.swing.JLabel jlCartasBatallaAtaque2CPUZ4;
     private javax.swing.JTextField jlCartasBatallaAtaque2Z2Jugador;
     private javax.swing.JTextField jlCartasBatallaDefensa1CPUZ3;
     private javax.swing.JTextField jlCartasBatallaDefensa1Z1Jugador;
-    private javax.swing.JTextField jlCartasBatallaDefensa2CPUZ4;
+    private javax.swing.JLabel jlCartasBatallaDefensa2CPUZ4;
     private javax.swing.JLabel jlCartasBatallaDefensa2Z2Jugador;
     private javax.swing.JLabel jlRonda;
     private javax.swing.JLabel jlSaludCPU;
+    private javax.swing.JPanel panelCartaHumano;
+    private javax.swing.JPanel panelCartaMaquina;
+    private javax.swing.JPanel panelPersonajes;
     private javax.swing.JRadioButton rZ1;
     private javax.swing.JRadioButton rZ2;
     private javax.swing.JRadioButton rZ3;

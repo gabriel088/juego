@@ -109,8 +109,8 @@ public class PersonajesCargados {
     public void presentar(String id) {
 //        hacer el seto
         if (id.equals("1")) {
-            nombre = "rey";//
-            salud = "450";
+            nombre = "luk";//
+            salud = "200";
             ataque = "70";
 
             System.out.println("nombre " + nombre);
@@ -121,8 +121,8 @@ public class PersonajesCargados {
         }
 
         if (id.equals("2")) {
-            nombre = "ren";//
-            salud = "450";
+            nombre = "dark";//
+            salud = "200";
             ataque = "70";
 
             System.out.println("nombre " + nombre);
